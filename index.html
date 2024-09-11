@@ -148,7 +148,8 @@ G.clearRect(0,0,CG.width,CG.height);
 if(q.length>0 && m-n>delay){
   window.o=m;
   q.forEach(({x:r,y:s})=>{
-    let t=G.createRadialGradient(r,s,0,r,s,50);
+//    let t=G.createRadialGradient(r,s,0,r,s,50);
+    let t=G.createRadialGradient(r,s,0,r,s,scoperadius/10);
     t.addColorStop(0,'rgba(0,255,0,0.8)');
     t.addColorStop(1,'rgba(0,255,0,0)');
     G.fillStyle=t;
