@@ -7,7 +7,7 @@ The Exterminator scans for the number 13 hidden within the patterns of your room
 
 This device uses the camera so make sure it has permission for your browser.
 
-Controls: click/tap
+Controls: click/tap  
 Tested on Android Chrome/Firefox.
 
 Make sure the lights are on and that you have camera/video enabled in apps/chrome and chrome/settings.
