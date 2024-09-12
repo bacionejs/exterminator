@@ -33,7 +33,7 @@ let start=Date.now();
 
 function game(){
 
-leather();
+scope();
 
 let CG=element('canvas');
 CG.width=W;
@@ -59,7 +59,7 @@ let enemies=[];
 let running=false;
 let overload=0;
 let time;
-let k=document.createElement('video');
+let camera=document.createElement('video');
 
 text("Scan");
 
@@ -80,11 +80,11 @@ if(state==1){
   return;
 }else if(state==5){
   state=1;
-  G.clearRect(0,0,CG.width,CG.height);
+  G.clearRect(0,0,W,H);
   text("Scan");
 }
 
-});
+});//end handler
 
 
 
@@ -97,13 +97,13 @@ if(state==1){
 function text(t,relax=false){
 let lines=t.split('\n');
 G.fillStyle="white";
-let font=16;
-G.textAlign="center";G.textBaseline="middle";G.font=font+"px monospace";
+let font=20;
+G.textAlign="center";G.textBaseline="middle";G.font="bold "+font+"px monospace";
 if(relax){
-  G.fillText(lines.at(-1),CG.width/2,CG.height/2+lines.length*20);
+  G.fillText(lines.at(-1),W/2,H/2+lines.length*20);
 }else{
   for(let i=0;i<lines.length;i++){
-    G.fillText(lines[i],CG.width/2,CG.height/2+i*20);
+    G.fillText(lines[i],W/2,H/2+i*20);
   }
 }
 }
@@ -116,14 +116,12 @@ if(relax){
 
 
 
-navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}}).then(
-  (j)=>{
-    k.width=W;
-    k.height=H;
-    k.srcObject=j;
-    k.autoplay=true;
-  }
-);
+navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}}).then((j)=>{
+camera.width=W;
+camera.height=H;
+camera.srcObject=j;
+camera.autoplay=true;
+});
 
 
 
@@ -133,35 +131,31 @@ navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}}).then(
 
 
 
-function detector(){
-(function animation(){
-if(state!=2){ 
-  return; 
+function detector(){(function animation(){
+if(state!=2){
+  return;
 }
 let m=new Date().getTime();
-let n=window.o || 0;
-V.drawImage(k,0,0,W,H);
+let n=window.o||0;
+V.drawImage(camera,0,0,W,H);
 let p=V.getImageData(0,0,W,H);
 q=fake(p);
 cnt=q.length;
-G.clearRect(0,0,CG.width,CG.height);
-if(q.length>0 && m-n>delay){
+G.clearRect(0,0,W,H);
+if(q.length>0&&m-n>delay){
   window.o=m;
   q.forEach(({x:r,y:s})=>{
-//    let t=G.createRadialGradient(r,s,0,r,s,50);
-    let t=G.createRadialGradient(r,s,0,r,s,scoperadius/10);
-    t.addColorStop(0,'rgba(0,255,0,0.8)');
-    t.addColorStop(1,'rgba(0,255,0,0)');
-    G.fillStyle=t;
-    G.beginPath();
-    G.arc(r,s,50,0,2*PI);
-    G.fill();
+    G.save();
+    G.translate(r,s);
+    G.font='bold 20 px Arial';
+    G.fillStyle='rgba(0,255,0,0.8)';
+    G.fillText('13',-15,10);
+    G.restore();
   });
 }
 text("Capture");
 setTimeout(()=>animation(),1000/frequency);
-})();//end animation
-}//end detector
+})();}
 
 
 
@@ -205,25 +199,24 @@ return z;
 
 
 class Enemy{
+
 constructor(){
-  this.radius=10;
-  let angle=random()*PI*2;
-  let distanceFromCenter=random()*(scoperadius-this.radius);
-  this.x=W/2+cos(angle)*distanceFromCenter;
-  this.y=H/2+sin(angle)*distanceFromCenter;
-  this.sx=(random()*1.5+0.5)*(random()<0.5?1:-1);
-  this.sy=(random()*1.5+0.5)*(random()<0.5?1:-1);
+this.radius=10;
+let angle=random()*PI*2;
+let distanceFromCenter=random()*(scoperadius-this.radius);
+this.x=W/2+cos(angle)*distanceFromCenter;
+this.y=H/2+sin(angle)*distanceFromCenter;
+this.sx=(random()*1.5+0.5)*(random()<0.5?1:-1);
+this.sy=(random()*1.5+0.5)*(random()<0.5?1:-1);
 }
 
 draw(){
-let grad=G.createRadialGradient(this.x,this.y,5,this.x,this.y,this.radius);
-grad.addColorStop(0,'lime');
-grad.addColorStop(1,'green');
-G.beginPath();
-G.arc(this.x,this.y,this.radius,0,PI*2);
-G.fillStyle=grad;
-G.fill();
-G.closePath();
+G.save();
+G.translate(this.x,this.y);
+G.font='bold 20px Arial';
+G.fillStyle='lime';
+G.fillText('13',-15,10);
+G.restore();
 }
 
 move(){
@@ -249,12 +242,10 @@ hit(x,y){
 let dx=this.x-x;
 let dy=this.y-y;
 let distance=sqrt(dx*dx+dy*dy);
-//return distance<this.radius*5;
-//return distance<scoperadius/5;
-return distance<this.radius*5;
+return distance<this.radius*10;
 }
 
-}//end enemy
+}//enemy
 
 
 
@@ -268,12 +259,12 @@ function spawnEnemies(){
 enemies=[];
 for(let i=0;i<cnt;i++){
 //for(let i=0;i<1;i++){
-    enemies.push(new Enemy());
+  enemies.push(new Enemy());
 }
 }
 
 function updateGame(){
-G.clearRect(0,0,CG.width,CG.height);
+G.clearRect(0,0,W,H);
 enemies.forEach((enemy)=>{
   enemy.move();
   enemy.draw();
@@ -290,12 +281,11 @@ gameLoop();
 
 function gameLoop(){
 if(running){
-//  if(overload>4){
   if(overload>8){
     overload=0;
     running=false;
-    G.clearRect(0,0,CG.width,CG.height);
-    brokenglass(CG.width/2, CG.height/2, CG.width/3)
+    G.clearRect(0,0,W,H);
+    brokenglass(W/2, H/2, W/2.1)
     text("Scanner Overload");
     let b=0;
     let a=setInterval(()=>{
@@ -303,7 +293,6 @@ if(running){
     },500);
     state=4; setTimeout(()=>{ clearInterval(a); state=5; },2000);
     return;
-
   }
   updateGame();
   if(newby<2 && Date.now()-time<2000){
@@ -332,7 +321,7 @@ enemies=enemies.filter(enemy=>{
 if(hit && enemies.length===0){
   overload=0;
   running=false;
-  G.clearRect(0,0,CG.width,CG.height);
+  G.clearRect(0,0,W,H);
   let b=0;
   text("EXTERMINATED");
   let a=setInterval(()=>{
@@ -352,8 +341,8 @@ if(hit && enemies.length===0){
 
 
 function brokenglass(x,y,radius){
-G.clearRect(0,0,CG.width,CG.height);
-for(let i=0;i<20;i++){
+G.clearRect(0,0,W,H);
+for(let i=0;i<10;i++){
   let p1=rnd(x,y,radius);
   let p2=rnd(x,y,radius);
   let p3=rnd(x,y,radius);
@@ -390,7 +379,7 @@ return{
 };
 }
 
-}//end brokenglass
+}//brokenglass
 
 
 
@@ -400,54 +389,42 @@ return{
 
 
 
-function leather(){
-let leac=element('canvas');leac.width=W;leac.height=H;
+function scope(){
+let leac=element('canvas');
+leac.width=W;
+leac.height=H;
 let lea=leac.getContext('2d');
-let color=[255,204,102];//yellow
-let img=lea.createImageData(W,H);
-for(let y=0;y<H;y++){
-  for(let x=0;x<W;x++){
-    let i=(y*W+x)*4;
-    let noise=random()*40-20;
-    img.data[i]=color[0]+noise;
-    img.data[i+1]=color[1]+noise;
-    img.data[i+2]=color[2]+noise;
-    img.data[i+3]=255;
-  }
-}
-lea.putImageData(img,0,0);
-lea.filter='blur(4px)';
-lea.drawImage(leac,0,0);
-lea.filter='none';
-let noic=document.createElement('canvas');
-let ss=0.8;
-noic.width=W*ss;
-noic.height=H*ss;
-let noi=noic.getContext('2d');
-img=noi.createImageData(W,H);
-for(let i=0;i<img.data.length;i+=4){
-  img.data[i]=random()*50;
-  img.data[i+1]=random()*50;
-  img.data[i+2]=random()*50;
-  img.data[i+3]=0;
-}
-noi.putImageData(img,0,0);
-lea.drawImage(noic,0,0);
-//circle
-//let radius=min(W,H)/2.5;
 let radius=min(W,H)/2;
 let x=W/2;
 let y=H/2;
 let g=lea.createRadialGradient(x,y,0,x,y,radius);
 g.addColorStop(0,'black');
-g.addColorStop(0.85,'black');
+g.addColorStop(0.93,'black');
 g.addColorStop(0.95,'white');
-g.addColorStop(1,'tan');
+g.addColorStop(1,'transparent');
 lea.fillStyle=g;
 lea.beginPath();
 lea.arc(x,y,radius,0,2*PI);
 lea.fill();
-}//end leather
+lea.strokeStyle='gold';
+lea.lineWidth=2;
+let z=0.9;
+let tickLength=10;
+let increment=radius*z/10;
+for(let i=-radius*z;i<=radius*z+0.01;i+=increment){
+  lea.beginPath();
+  lea.moveTo(x-tickLength,y+i);
+  lea.lineTo(x+tickLength,y+i);
+  lea.stroke();
+}
+for(let i=-radius*z;i<=radius*z+0.01;i+=increment){
+  lea.beginPath();
+  lea.moveTo(x+i,y-tickLength);
+  lea.lineTo(x+i,y+tickLength);
+  lea.stroke();
+}
+}
+
 
 
 
@@ -458,7 +435,7 @@ lea.fill();
 
 
 }//end game
-}
+}//end onload
 </script>
 </body>
 </html>
