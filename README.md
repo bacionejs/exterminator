@@ -1,4 +1,5 @@
 # Exterminator
+[![Play](README.PNG)](https://bacionejs.github.io/exterminator)
 
 A javascript game for the js13kgames 2024 competition  
 
