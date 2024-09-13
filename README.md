@@ -49,9 +49,7 @@ So I went with something plain. But a user said that it looked like a coffee cup
 
 The prompts in the game were Scan and Capture. I didn't like the idea of "Click to Scan". It just seemed unpolished. But it was confusing. Does Scan mean it is scanning or does it mean "Click to Scan". This nagged at me, and when a tester on Slack complained, I changed it.
 
-I don't like buttons, so I use one click handler bound to window. Then, I keep advancing/reverting the state. But if a user is frantically clicking at the end of a level, the next state could get skipped, so I put in a delay that refuses clicks and an indicator to wait.
-
-
 
 ## Developer Notes
-todo
+
+I don't like buttons, so I use one click handler bound to window. Then, I keep advancing/reverting the state. But if a user is frantically clicking at the end of a level, the next state could get skipped, so I put in a delay that refuses clicks and an indicator to wait.
