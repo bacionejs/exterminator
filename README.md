@@ -34,6 +34,10 @@ Note:
 
 and... 🎬
 
+After submitting my first entry, in the last few days of the competition, I decided to try for one more.
+
+An idea had been itching my brain: NPCs and players can't have phobias. We needed something to use in *our* environment.
+
 I've always wanted to do something with the camera feed. My first thought was that the player had to make the shape of the number 13 with their body. But that wasn't possible without using a huge library like tensorflow.
 
 So I went with simple edge detection to fake the idea that you where finding and exterminating 13s. The idea still makes me laugh. If you ever see someone at the airport pointing their phone at something and then smashing away, maybe it is my game.
