@@ -12,6 +12,9 @@ onload=()=>{
 function element(e){return document.body.appendChild(document.createElement(e));}
 element("style").textContent=`
 *{margin:0;padding:0;position:fixed;box-sizing:border-box;touch-action:none;user-select:none;}
+body {
+  background-color: rgba(255, 255, 255, 0.9);
+}
 `;
 
 let W;
@@ -24,6 +27,7 @@ let start=Date.now();
   if(innerHeight<screen.availHeight || Date.now()-start>3000){
     W=innerWidth;
     H=innerHeight;
+//    alert(W);
     game();
   }else{
     requestAnimationFrame(waitforheight);
@@ -61,7 +65,7 @@ let overload=0;
 let time;
 let camera=document.createElement('video');
 
-text("Scan");
+text("Click to Scan");
 
 addEventListener('click',(event)=>{
 if(state==1){
@@ -81,7 +85,7 @@ if(state==1){
 }else if(state==5){
   state=1;
   G.clearRect(0,0,W,H);
-  text("Scan");
+  text("Click to Scan");
 }
 
 });//end handler
@@ -97,7 +101,8 @@ if(state==1){
 function text(t,relax=false){
 let lines=t.split('\n');
 G.fillStyle="white";
-let font=20;
+//let font=20;
+let font=W/30;
 G.textAlign="center";G.textBaseline="middle";G.font="bold "+font+"px monospace";
 if(relax){
   G.fillText(lines.at(-1),W/2,H/2+lines.length*20);
@@ -117,10 +122,18 @@ if(relax){
 
 
 navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}}).then((j)=>{
-camera.width=W;
-camera.height=H;
-camera.srcObject=j;
-camera.autoplay=true;
+  camera.width=W;
+  camera.height=H;
+  camera.srcObject=j;
+  camera.autoplay=true;
+}).catch((error)=>{
+  if(error.name==="NotAllowedError"){
+    alert("Camera access denied. Please enable camera permissions in Chrome or Android settings.");
+  }else if(error.name==="NotFoundError"){
+    alert("No camera found on this device.");
+  }else{
+    alert("An error occurred while trying to access the camera: "+error.message);
+  }
 });
 
 
@@ -153,7 +166,7 @@ if(q.length>0&&m-n>delay){
     G.restore();
   });
 }
-text("Capture");
+text("Click to Capture");
 setTimeout(()=>animation(),1000/frequency);
 })();}
 
@@ -201,7 +214,8 @@ return z;
 class Enemy{
 
 constructor(){
-this.radius=10;
+//this.radius=10;
+this.radius=W/70;
 let angle=random()*PI*2;
 let distanceFromCenter=random()*(scoperadius-this.radius);
 this.x=W/2+cos(angle)*distanceFromCenter;
@@ -409,7 +423,8 @@ lea.fill();
 lea.strokeStyle='gold';
 lea.lineWidth=2;
 let z=0.9;
-let tickLength=10;
+//let tickLength=10;
+let tickLength=W/70;
 let increment=radius*z/10;
 for(let i=-radius*z;i<=radius*z+0.01;i+=increment){
   lea.beginPath();
