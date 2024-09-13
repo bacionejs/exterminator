@@ -35,7 +35,7 @@ Note:
 
 and... 🎬
 
-After submitting my first entry, in the last few days of the competition, I decided to try for one more.
+After submitting my first entry, in the last few days of the competition I decided to try for one more.
 
 An idea had been itching my brain: NPCs and players can't have phobias. We needed something to use in *our* environment.
 
