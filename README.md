@@ -47,7 +47,7 @@ I spent a lot of time on a retro instrument panel. The procedurally generated le
 
 So I went with something plain. But a user said that it looked like a coffee cup so i added cross hairs. Another user said the green blobs should be number 13s so I changed that.
 
-The prompts in the game were Scan and Capture. I didn't like the idea of "Click to Scan". It just seemed unpolished. But it was confusing. Does Scan mean it is scanning or does it mean "Click to Scan". This nagged at me, and when a tester on Slack complained, I changed it.
+The prompts in the game were Scan and Capture. I didn't like the idea of "Click to Scan". It just seemed unpolished. But it was confusing. Does Scan mean it is scanning or does it mean "Click to Scan"? This nagged at me, and when a tester on Slack complained, I changed it.
 
 
 ## Developer Notes
