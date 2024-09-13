@@ -43,7 +43,7 @@ I've always wanted to do something with the camera feed. My first thought was th
 
 So I went with simple edge detection to fake the idea that you where finding and exterminating 13s. The idea still makes me laugh. If you ever see someone at the airport pointing their phone at something and then smashing away, maybe it is my game.
 
-I spent a lot of time on a retro instrument panel. The procedurally generated leather effect alone took hours. And the dials, toggles and sliders a few hour more. But the end result was ugly. Time wasted.
+I spent a lot of time on a retro instrument panel. The procedurally generated leather effect alone took hours. And the dials, toggles and sliders a few hours more. But the end result was ugly. Time wasted.
 
 So I went with something plain. But a user said that it looked like a coffee cup so i added cross hairs. Another user said the green blobs should be number 13s so I changed that.
 
